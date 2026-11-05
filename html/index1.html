@@ -10,12 +10,12 @@
 
   <link rel="stylesheet" href="../css/normalizel.css">
 
-  <link rel="stylesheet" href="../css/stylel.css" media="screen" type="text/css" />
-  <link rel="stylesheet" href="../css/mobile.css?v=2">
+  <link rel="stylesheet" href="../css/stylel.css?v=3" media="screen" type="text/css" />
+  <link rel="stylesheet" href="../css/mobile.css?v=3">
 
 </head>
 
-<body>
+<body class="greeting-page">
 <canvas class="canvas"></canvas>
 <div class="mobile-greeting" aria-label="生日祝福">
   <span>Hi，李婷</span>
@@ -50,6 +50,7 @@
 
   <script>
     if (window.matchMedia('(max-width: 960px)').matches) {
+      document.body.classList.add('body--ready');
       window.setTimeout(function () {
         window.location.href = 'BirthdayCake.html';
       }, 8000);

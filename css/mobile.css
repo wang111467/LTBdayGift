@@ -1,3 +1,4 @@
+.greeting-page { background: #ee9ca7; }
 .mobile-greeting { display: none; }
 
 /* Small-screen layouts shared by the birthday pages. */
@@ -36,34 +37,63 @@
   }
   .mobile-greeting {
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 14px;
     box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
     padding: 24px;
+    overflow: hidden;
     background: #ee9ca7;
     color: #5a2434;
     font-family: "Microsoft YaHei", sans-serif;
-    font-size: clamp(24px, 7vw, 36px);
+    font-size: 28px;
     font-weight: 600;
     line-height: 1.4;
     text-align: center;
   }
+  .mobile-greeting::before {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 24vw 8vh 0 1px rgba(255,255,255,.5),
+                55vw 20vh 0 2px rgba(255,255,255,.45),
+                10vw 45vh 0 1px rgba(255,255,255,.55),
+                70vw 57vh 0 2px rgba(255,255,255,.4),
+                40vw 72vh 0 1px rgba(255,255,255,.5);
+    animation: greeting-sparkle 5s ease-in-out infinite alternate;
+  }
+  .mobile-greeting > * {
+    position: relative;
+    z-index: 1;
+  }
   .mobile-greeting strong {
-    font-size: clamp(36px, 10vw, 52px);
+    font-size: 40px;
     font-weight: 700;
   }
   .mobile-greeting span:last-child {
-    font-size: clamp(20px, 5vw, 28px);
+    font-size: 22px;
   }
 
   /* Center the cake and keep both choices in one row. */
   #cake {
     display: block;
-    width: min(200px, 55vw);
+    width: 200px;
+    max-width: 55vw;
     height: auto;
     margin-left: auto;
     margin-right: auto;
@@ -73,8 +103,11 @@
   }
   .happy {
     left: 50%;
-    width: min(84vw, 500px);
+    width: 84%;
+    max-width: 500px;
     transform: translateX(-50%);
+    -webkit-animation: mobile-happy 10s both;
+    animation: mobile-happy 10s both;
   }
   .happy img {
     display: block;
@@ -84,6 +117,7 @@
   .choice-actions {
     position: absolute;
     right: 0;
+    bottom: 16%;
     bottom: clamp(64px, 18svh, 150px);
     left: 0;
     z-index: 100;
@@ -112,10 +146,11 @@
     box-sizing: border-box;
     width: 100%;
     height: 54px;
-    font-size: clamp(16px, 4.5vw, 18px);
+    font-size: 18px;
   }
   .choice-preview {
-    width: min(200px, 55vw);
+    width: 200px;
+    max-width: 55vw;
     max-height: 55vh;
   }
 
@@ -156,7 +191,8 @@
     right: auto !important;
     bottom: auto !important;
     left: auto !important;
-    width: min(100%, 420px) !important;
+    width: 100% !important;
+    max-width: 420px;
     height: auto !important;
     min-height: 0;
     margin: 0 !important;
@@ -199,7 +235,8 @@
   html.memories-page .section [class^="ly-txt"] > img {
     position: static !important;
     display: block;
-    width: min(100%, 240px) !important;
+    width: 100% !important;
+    max-width: 240px;
     height: auto !important;
     max-height: 44px;
     margin: 0 auto;
@@ -209,6 +246,7 @@
     position: relative !important;
     bottom: auto !important;
     width: 100% !important;
+    height: 170px !important;
     height: clamp(130px, 24svh, 190px) !important;
     overflow: hidden !important;
     border-radius: 8px;
@@ -217,7 +255,8 @@
   }
   html.memories-page .section [class^="ly-imgbox"] > img {
     position: absolute !important;
-    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: contain;
@@ -251,13 +290,29 @@
 
 @media (max-width: 960px) and (max-height: 600px) {
   #cake {
-    width: min(120px, 30vh);
+    width: 120px;
+    max-width: 30vh;
   }
   .velas {
     display: none;
   }
   .happy {
     top: 42%;
-    width: min(55vw, 360px);
+    width: 55%;
+    max-width: 360px;
   }
+}
+
+@-webkit-keyframes mobile-happy {
+  0%, 70% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes mobile-happy {
+  0%, 70% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes greeting-sparkle {
+  from { opacity: 0.35; transform: translateY(0); }
+  to { opacity: 0.8; transform: translateY(-18px); }
 }
