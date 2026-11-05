@@ -11,12 +11,17 @@
   <link rel="stylesheet" href="../css/normalizel.css">
 
   <link rel="stylesheet" href="../css/stylel.css" media="screen" type="text/css" />
-  <link rel="stylesheet" href="../css/mobile.css">
+  <link rel="stylesheet" href="../css/mobile.css?v=2">
 
 </head>
 
 <body>
 <canvas class="canvas"></canvas>
+<div class="mobile-greeting" aria-label="生日祝福">
+  <span>Hi，李婷</span>
+  <strong>祝你生日快乐</strong>
+  <span>Happy Birthday</span>
+</div>
 
 <div class="help">?</div> 
 
@@ -43,7 +48,17 @@
   </div>
 </div>
 
-  <script src="../js/indexl.js"></script>
+  <script>
+    if (window.matchMedia('(max-width: 960px)').matches) {
+      window.setTimeout(function () {
+        window.location.href = 'BirthdayCake.html';
+      }, 8000);
+    } else {
+      var animationScript = document.createElement('script');
+      animationScript.src = '../js/indexl.js';
+      document.body.appendChild(animationScript);
+    }
+  </script>
 
 </body>
 
