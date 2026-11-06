@@ -4,6 +4,7 @@
   var requestId = 0;
   var choices = document.querySelector('.choice-actions');
   var wishStep = document.getElementById('wish-step');
+  var wishPrompt = document.getElementById('wish-prompt');
   var blowButton = document.getElementById('blow-candle');
   var likeStarted = false;
 
@@ -52,7 +53,8 @@
   blowButton.addEventListener('click', function () {
     if (blowButton.disabled) return;
     blowButton.disabled = true;
-    wishStep.hidden = true;
+    blowButton.hidden = true;
+    wishPrompt.textContent = '你的愿望都能实现';
     document.body.classList.add('candle-extinguished');
     setTimeout(function () {
       window.location.href = 'Memories.html';
