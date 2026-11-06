@@ -70,6 +70,27 @@ html.memories-page .memory-card [class^="ly-imgbox"] > .memory-sticker {
   object-fit: contain;
 }
 @media (min-width: 961px) {
+  html.memories-page .section.active .memory-card:not(.ly-box01) {
+    transition-delay: .12s !important;
+    transition-duration: .5s !important;
+  }
+  html.memories-page .section.active .memory-card:not(.ly-box01) [class^="ly-txt"] {
+    transition-delay: .2s !important;
+    transition-duration: .35s !important;
+  }
+  html.memories-page .section.active .memory-card:not(.ly-box01) [class^="ly-imgbox"] {
+    transition-delay: .3s !important;
+    transition-duration: .4s !important;
+  }
+  html.memories-page .section.active .timeline {
+    transition-delay: 0s !important;
+    transition-duration: .5s !important;
+  }
+  html.memories-page .section.active [class^="timepoint"],
+  html.memories-page .section.active [class^="ly-triangle"] {
+    transition-delay: .2s !important;
+    transition-duration: .35s !important;
+  }
   html.memories-page .memory-card::before { display: none; }
   html.memories-page .ly-box01 .memory-intro-label {
     position: absolute;

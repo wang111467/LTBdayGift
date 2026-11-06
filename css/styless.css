@@ -547,8 +547,7 @@ body {
 	animation: choice-preview 2s ease-in-out forwards;
 }
 @keyframes choice-preview {
-	0% { opacity: 0; transform: translate(-50%, -45%) scale(0.9); }
-	15%, 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+	0%, 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 	100% { opacity: 0; transform: translate(-50%, -55%) scale(1); }
 }
 .bt1,.bt2 {
