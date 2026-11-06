@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "BirthdayBrush";
+  src: url("../fonts/MaShanZheng-Birthday.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 
 * {
   box-sizing: border-box;
@@ -64,12 +72,17 @@ body :-ms-input-placeholder {
   text-align: center;
 }
 .container h1 {
-  font-size: 40px;
+  font-family: "BirthdayBrush", "STKaiti", "KaiTi", serif;
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.08em;
+  color: #fffdf8;
+  text-shadow: 0 3px 12px rgba(124, 44, 65, 0.25);
   -webkit-transition-duration: 1s;
           transition-duration: 1s;
   -webkit-transition-timing-function: ease-in-put;
           transition-timing-function: ease-in-put;
-  font-weight: 200;
 }
 form {
   padding: 20px 0;

@@ -1,7 +1,11 @@
 
 var S = {
+  particleSpacing: function () {
+    var shortestSide = Math.min(window.innerWidth, window.innerHeight);
+    return Math.max(6, Math.min(13, Math.round(shortestSide / 55)));
+  },
   init: function () {
-    var m=0;
+    var mobile = window.matchMedia && window.matchMedia('(max-width: 960px) and (pointer: coarse)').matches;
     var action = window.location.href,
         i = action.indexOf('?a=');
 
@@ -11,16 +15,15 @@ var S = {
     if (i !== -1) {
       S.UI.simulate(decodeURI(action).substring(i + 3));
     } else {
-      S.UI.simulate('Hi 李婷|祝你|生日快乐|happy birthday|#countdown 3||');
+      S.UI.simulate(mobile ? 'Hi 李婷|祝你|生日快乐|Happy|Birthday|#countdown 3||' : 'Hi 李婷|祝你|生日快乐|happy birthday|#countdown 3||');
     }
 
+    window.setTimeout(function () {
+      window.location.href = 'BirthdayCake.html';
+    }, mobile ? 13500 : 11500);
+
     S.Drawing.loop(function () {
-            m++;
       S.Shape.render();
-      //console.log(m);
-      if(m==700){
-        window.location.href="../html/BirthdayCake.html";
-      }
     });
 
   }
@@ -46,8 +49,13 @@ S.Drawing = (function () {
       context = canvas.getContext('2d');
       this.adjustCanvas();
 
-      window.addEventListener('resize', function (e) {
+      var resizeTimer;
+      window.addEventListener('resize', function () {
         S.Drawing.adjustCanvas();
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(function () {
+          S.Shape.refresh();
+        }, 120);
       });
     },
 
@@ -59,16 +67,20 @@ S.Drawing = (function () {
     },
 
     adjustCanvas: function () {
-      canvas.width = window.innerWidth-20;
-      canvas.height = window.innerHeight-20;
+      var scale = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      canvas.width = Math.round(window.innerWidth * scale);
+      canvas.height = Math.round(window.innerHeight * scale);
+      context.setTransform(scale, 0, 0, scale, 0, 0);
     },
 
     clearFrame: function () {
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
     },
 
     getArea: function () {
-      return { w: canvas.width, h: canvas.height };
+      return { w: window.innerWidth, h: window.innerHeight };
     },
 
     drawCircle: function (p, c) {
@@ -367,7 +379,7 @@ S.Dot = function (x, y) {
   this.p = new S.Point({
     x: x,
     y: y,
-    z: 5,
+    z: S.particleSpacing() * 5 / 13,
     a: 1,
     h: 0
   });
@@ -475,13 +487,14 @@ S.Dot.prototype = {
 
 
 S.ShapeBuilder = (function () {
-  var gap = 13,
+  var gap = S.particleSpacing(),
       shapeCanvas = document.createElement('canvas'),
       shapeContext = shapeCanvas.getContext('2d'),
       fontSize = 500,
       fontFamily = 'Avenir, Helvetica Neue, Helvetica, Arial, sans-serif';
 
   function fit() {
+    gap = S.particleSpacing();
     shapeCanvas.width = Math.floor(window.innerWidth / gap) * gap;
     shapeCanvas.height = Math.floor(window.innerHeight / gap) * gap;
     shapeContext.fillStyle = 'red';
@@ -572,17 +585,20 @@ S.ShapeBuilder = (function () {
 
     letter: function (l) {
       var s = 0;
+      var widthFraction = window.innerWidth <= 960 ? 0.9 : 0.8;
 
       setFontSize(fontSize);
       s = Math.min(fontSize,
-                  (shapeCanvas.width / shapeContext.measureText(l).width) * 0.8 * fontSize, 
+                  (shapeCanvas.width / shapeContext.measureText(l).width) * widthFraction * fontSize,
                   (shapeCanvas.height / fontSize) * (isNumber(l) ? 1 : 0.45) * fontSize);
       setFontSize(s);
 
       shapeContext.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
       shapeContext.fillText(l, shapeCanvas.width / 2, shapeCanvas.height / 2);
 
-      return processCanvas();
+      var shape = processCanvas();
+      shape.text = l;
+      return shape;
     },
 
     rectangle: function (w, h) {
@@ -610,7 +626,8 @@ S.Shape = (function () {
       width = 0,
       height = 0,
       cx = 0,
-      cy = 0;
+      cy = 0,
+      currentLetter = null;
 
   function compensate() {
     var a = S.Drawing.getArea();
@@ -620,6 +637,11 @@ S.Shape = (function () {
   }
 
   return {
+    refresh: function () {
+      if (currentLetter === null) return;
+      dots = [];
+      this.switchShape(S.ShapeBuilder.letter(currentLetter), true);
+    },
     shuffleIdle: function () {
       var a = S.Drawing.getArea();
 
@@ -637,6 +659,7 @@ S.Shape = (function () {
       var size,
           a = S.Drawing.getArea();
 
+      currentLetter = n.text !== undefined ? n.text : null;
       width = n.w;
       height = n.h;
 
@@ -674,7 +697,7 @@ S.Shape = (function () {
           x: n.dots[i].x + cx,
           y: n.dots[i].y + cy,
           a: 1,
-          z: 5,
+          z: S.particleSpacing() * 5 / 13,
           h: 0
         }));
 
@@ -713,3 +736,4 @@ S.Shape = (function () {
 
 
 S.init();
+document.body.classList.add('particle-ready');
