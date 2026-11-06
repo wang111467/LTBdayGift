@@ -19,13 +19,13 @@
 
   var entry = document.getElementById('easter-entry');
   var backdrop = document.getElementById('riddle-backdrop');
-  var questionModal = document.getElementById('riddle-question-modal');
-  var answerModal = document.getElementById('riddle-answer-modal');
+  var modal = document.getElementById('riddle-question-modal');
   var question = document.getElementById('riddle-question');
+  var answerPanel = document.getElementById('riddle-answer-panel');
   var answer = document.getElementById('riddle-answer');
   var questionProgress = document.getElementById('riddle-question-progress');
-  var answerProgress = document.getElementById('riddle-answer-progress');
-  var unknownButton = document.getElementById('riddle-unknown');
+  var revealButton = document.getElementById('riddle-reveal');
+  var previousButton = document.getElementById('riddle-previous');
   var nextButton = document.getElementById('riddle-next');
   var current = 0;
 
@@ -34,47 +34,52 @@
       String(riddles.length).padStart(2, '0');
   }
 
-  function show(modal, focusTarget) {
-    backdrop.hidden = false;
-    questionModal.hidden = modal !== questionModal;
-    answerModal.hidden = modal !== answerModal;
-    entry.setAttribute('aria-expanded', 'true');
-    focusTarget.focus();
-  }
-
   function showQuestion() {
     question.textContent = riddles[current].question;
     questionProgress.textContent = progress();
-    show(questionModal, unknownButton);
+    answer.textContent = '';
+    answerPanel.hidden = true;
+    revealButton.hidden = false;
+    previousButton.hidden = current === 0;
+    nextButton.hidden = current === riddles.length - 1;
+    backdrop.hidden = false;
+    modal.hidden = false;
+    entry.setAttribute('aria-expanded', 'true');
+    revealButton.focus();
   }
 
   function showAnswer() {
     answer.textContent = riddles[current].answer;
-    answerProgress.textContent = progress();
-    nextButton.textContent = current === riddles.length - 1 ? '再来一遍' : '下一题';
-    show(answerModal, nextButton);
+    answerPanel.hidden = false;
+    revealButton.hidden = true;
+    (nextButton.hidden ? previousButton : nextButton).focus();
   }
 
   function close() {
     backdrop.hidden = true;
-    questionModal.hidden = true;
-    answerModal.hidden = true;
+    modal.hidden = true;
     entry.setAttribute('aria-expanded', 'false');
     entry.focus();
   }
 
-  document.addEventListener('birthday-text-complete', function () {
-    entry.hidden = false;
-  });
-  if (window.easterTextComplete) entry.hidden = false;
+  function revealEntry() { entry.hidden = false; }
+  document.addEventListener('birthday-text-nearly-complete', revealEntry);
+  document.addEventListener('birthday-text-complete', revealEntry);
+  if (window.easterEntryReady || window.easterTextComplete) revealEntry();
 
   entry.addEventListener('click', function () {
     current = 0;
     showQuestion();
   });
-  unknownButton.addEventListener('click', showAnswer);
+  revealButton.addEventListener('click', showAnswer);
+  previousButton.addEventListener('click', function () {
+    if (current === 0) return;
+    current -= 1;
+    showQuestion();
+  });
   nextButton.addEventListener('click', function () {
-    current = (current + 1) % riddles.length;
+    if (current === riddles.length - 1) return;
+    current += 1;
     showQuestion();
   });
   backdrop.addEventListener('click', close);

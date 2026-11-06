@@ -16,7 +16,7 @@
   <title>李婷，生日快乐！</title>
 
 
-  <link rel="stylesheet" href="../css/easter-quiz.css?v=2">
+  <link rel="stylesheet" href="../css/easter-quiz.css?v=6">
 </head>
 <style>
   body {
@@ -48,17 +48,18 @@
     <button class="riddle-close" type="button" aria-label="关闭弹窗">×</button>
     <span class="riddle-eyebrow">BIRTHDAY SURPRISE <span id="riddle-question-progress">01 / 03</span></span>
     <h2 id="riddle-title">幽默脑筋急转弯</h2>
-    <p id="riddle-question" class="riddle-copy" aria-live="polite"></p>
-    <button id="riddle-unknown" class="riddle-primary" type="button">不知道</button>
-  </section>
-
-  <section id="riddle-answer-modal" class="riddle-modal riddle-modal--answer" role="dialog"
-    aria-modal="true" aria-labelledby="riddle-answer-title" hidden>
-    <button class="riddle-close" type="button" aria-label="关闭弹窗">×</button>
-    <span class="riddle-eyebrow">ANSWER <span id="riddle-answer-progress">01 / 03</span></span>
-    <h2 id="riddle-answer-title">答案揭晓 ✦</h2>
-    <p id="riddle-answer" class="riddle-copy" aria-live="polite"></p>
-    <button id="riddle-next" class="riddle-primary" type="button">下一题</button>
+    <div class="riddle-copy riddle-question-box">
+      <p id="riddle-question" class="riddle-question-text" aria-live="polite"></p>
+      <button id="riddle-reveal" class="riddle-reveal" type="button">答案</button>
+    </div>
+    <div id="riddle-answer-panel" class="riddle-answer-panel" hidden>
+      <span class="riddle-answer-label">答案揭晓 ✦</span>
+      <p id="riddle-answer" class="riddle-copy" aria-live="polite"></p>
+    </div>
+    <div class="riddle-actions">
+      <button id="riddle-previous" class="riddle-nav riddle-nav--previous" type="button" hidden>上一题</button>
+      <button id="riddle-next" class="riddle-nav riddle-nav--next" type="button">下一题</button>
+    </div>
   </section>
 
   <script>
@@ -245,6 +246,12 @@
         }
       });
 
+      if (!window.easterEntryReady && targets.length === 0 &&
+          !shards.some(shard => shard.target && shard.timer < shard.ttl - 60)) {
+        window.easterEntryReady = true;
+        document.dispatchEvent(new Event('birthday-text-nearly-complete'));
+      }
+
       if (!window.easterTextComplete && targets.length === 0 &&
           !shards.some(shard => shard.target)) {
         window.easterTextComplete = true;
@@ -272,7 +279,7 @@
 
 
   </script>
-  <script src="../js/easter-quiz.js?v=1"></script>
+  <script src="../js/easter-quiz.js?v=5"></script>
 
 </body>
 

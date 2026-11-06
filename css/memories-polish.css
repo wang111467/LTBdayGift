@@ -193,3 +193,140 @@ html.memories-page .memory-card [class^="ly-imgbox"] > .memory-sticker {
     object-fit: contain !important;
   }
 }
+
+/* Small birthday cat vector, kept clear of the card text and illustration. */
+html.memories-page .ly-box81 .kitty-note {
+  position: absolute;
+  z-index: 3;
+  display: block;
+  width: 108px;
+  height: 108px;
+  object-fit: contain;
+  pointer-events: none;
+}
+@media (min-width: 961px) {
+  html.memories-page .ly-box81 .kitty-note {
+    top: 18px;
+    right: 13px;
+    width: 62px;
+    height: 62px;
+  }
+}
+@media (max-width: 960px) {
+  html.memories-page .ly-box81 .kitty-note {
+    top: 79px;
+    right: 13px;
+  }
+}
+
+/* Light paper details: the birthday text and pictures stay unobstructed. */
+html.memories-page .bgcolor {
+  background-color: #ee9ca7;
+  background-image: url("../img/memory-confetti.svg?v=2");
+  background-position: center top;
+  background-size: 390px 560px;
+  background-repeat: repeat;
+}
+html.memories-page .section {
+  position: relative;
+}
+html.memories-page .section::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  z-index: 0;
+  width: 128px;
+  height: 24px;
+  transform: translateX(-50%);
+  background: url("../img/memory-ribbon-divider.svg?v=2") center / contain no-repeat;
+  pointer-events: none;
+}
+html.memories-page .section:last-child::after { display: none; }
+html.memories-page .memory-card .memory-washi {
+  position: absolute;
+  top: 1px;
+  left: 28px;
+  z-index: 6;
+  display: block;
+  width: 62px;
+  height: 20px;
+  transform: rotate(-10deg);
+  transform-origin: center;
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.28) 0 7px, transparent 7px 14px), rgba(255,213,222,.83);
+  clip-path: polygon(0 0, 100% 0, 97% 24%, 100% 50%, 97% 75%, 100% 100%, 0 100%, 3% 76%, 0 50%, 3% 24%);
+  pointer-events: none;
+}
+html.memories-page .memory-card.tone-gold .memory-washi,
+html.memories-page .memory-card.tone-mint .memory-washi {
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.34) 0 7px, transparent 7px 14px), rgba(255,234,196,.84);
+  transform: rotate(9deg);
+}
+@media (min-width: 961px) {
+  html.memories-page .section::after { bottom: 4%; }
+  html.memories-page .memory-card .memory-washi {
+    left: 16px;
+    width: 50px;
+    height: 16px;
+  }
+}
+@media (min-width: 961px) {
+  html.memories-page .bgcolor {
+    background-image: url("../img/memory-confetti-wide.svg?v=2");
+    background-size: 100vw 100vh;
+    background-repeat: repeat-y;
+  }
+}
+/* Paper-cut motifs live in spare text space, never on top of the pictures. */
+html.memories-page .memory-card .memory-motif,
+html.memories-page .memory-card .memory-gift-scene {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  object-fit: contain;
+  pointer-events: none;
+}
+html.memories-page .memory-card .memory-motif {
+  top: 47px;
+  right: 27px;
+  width: 37px;
+  height: 37px;
+  opacity: .88;
+}
+html.memories-page .memory-card .memory-motif--feature {
+  top: 96px;
+  right: 43px;
+  width: 72px;
+  height: 72px;
+  opacity: .82;
+}
+html.memories-page .memory-card .memory-gift-scene { display: none; }
+@media (min-width: 961px) {
+  html.memories-page .memory-card .memory-motif {
+    top: 34px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    opacity: .75;
+  }
+  html.memories-page .memory-card .memory-motif--feature {
+    top: 96px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    opacity: .46;
+  }
+  html.memories-page .ly-box82 .memory-motif { display: none; }
+  html.memories-page .ly-box82 .memory-gift-scene {
+    display: block;
+    right: 50px;
+    bottom: 36px;
+    width: 252px;
+    height: 214px;
+    opacity: .88;
+  }
+}
+@media (max-width: 360px) {
+  html.memories-page .memory-card .memory-motif { right: 23px; width: 32px; height: 32px; }
+  html.memories-page .memory-card .memory-motif--feature { right: 30px; width: 62px; height: 62px; }
+}
