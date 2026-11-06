@@ -16,6 +16,7 @@
   <title>李婷，生日快乐！</title>
 
 
+  <link rel="stylesheet" href="../css/easter-quiz.css?v=2">
 </head>
 <style>
   body {
@@ -34,6 +35,31 @@
   <canvas></canvas>
   <canvas></canvas>
   <canvas></canvas>
+
+  <button id="easter-entry" class="easter-entry" type="button" aria-label="打开隐藏彩蛋" hidden>
+    <span class="easter-entry__sparkle" aria-hidden="true">✦</span>
+    <span>还有彩蛋</span>
+  </button>
+
+  <div id="riddle-backdrop" class="riddle-backdrop" hidden></div>
+
+  <section id="riddle-question-modal" class="riddle-modal" role="dialog" aria-modal="true"
+    aria-labelledby="riddle-title" hidden>
+    <button class="riddle-close" type="button" aria-label="关闭弹窗">×</button>
+    <span class="riddle-eyebrow">BIRTHDAY SURPRISE <span id="riddle-question-progress">01 / 03</span></span>
+    <h2 id="riddle-title">幽默脑筋急转弯</h2>
+    <p id="riddle-question" class="riddle-copy" aria-live="polite"></p>
+    <button id="riddle-unknown" class="riddle-primary" type="button">不知道</button>
+  </section>
+
+  <section id="riddle-answer-modal" class="riddle-modal riddle-modal--answer" role="dialog"
+    aria-modal="true" aria-labelledby="riddle-answer-title" hidden>
+    <button class="riddle-close" type="button" aria-label="关闭弹窗">×</button>
+    <span class="riddle-eyebrow">ANSWER <span id="riddle-answer-progress">01 / 03</span></span>
+    <h2 id="riddle-answer-title">答案揭晓 ✦</h2>
+    <p id="riddle-answer" class="riddle-copy" aria-live="polite"></p>
+    <button id="riddle-next" class="riddle-primary" type="button">下一题</button>
+  </section>
 
   <script>
 
@@ -219,6 +245,12 @@
         }
       });
 
+      if (!window.easterTextComplete && targets.length === 0 &&
+          !shards.some(shard => shard.target)) {
+        window.easterTextComplete = true;
+        document.dispatchEvent(new Event('birthday-text-complete'));
+      }
+
       requestAnimationFrame(loop);
     })();
 
@@ -240,6 +272,7 @@
 
 
   </script>
+  <script src="../js/easter-quiz.js?v=1"></script>
 
 </body>
 
