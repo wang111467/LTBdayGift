@@ -2,8 +2,12 @@
   var preview = document.getElementById('choice-preview');
   var hideTimer;
   var requestId = 0;
+  var choices = document.querySelector('.choice-actions');
+  var wishStep = document.getElementById('wish-step');
+  var blowButton = document.getElementById('blow-candle');
+  var likeStarted = false;
 
-  function showPreview(image, description, continueAfter) {
+  function showPreview(image, description, onFinished) {
     clearTimeout(hideTimer);
     var currentRequest = ++requestId;
     var shown = false;
@@ -21,7 +25,7 @@
       hideTimer = setTimeout(function () {
         preview.hidden = true;
         preview.classList.remove('is-visible');
-        if (continueAfter) window.location.href = 'Memories.html';
+        if (onFinished) onFinished();
       }, 2000);
     }
 
@@ -37,11 +41,27 @@
 
   document.getElementById('like-choice').addEventListener('click', function (event) {
     event.preventDefault();
-    showPreview('../img/choice-like.webp', '开心的照片', true);
+    if (likeStarted) return;
+    likeStarted = true;
+    choices.hidden = true;
+    showPreview('../img/choice-like.webp', '开心的照片', function () {
+      wishStep.hidden = false;
+    });
+  });
+
+  blowButton.addEventListener('click', function () {
+    if (blowButton.disabled) return;
+    blowButton.disabled = true;
+    wishStep.hidden = true;
+    document.body.classList.add('candle-extinguished');
+    setTimeout(function () {
+      window.location.href = 'Memories.html';
+    }, 2000);
   });
 
   document.getElementById('dislike-choice').addEventListener('click', function (event) {
     event.preventDefault();
-    showPreview('../img/choice-dislike.webp', '不开心的照片', false);
+    if (likeStarted) return;
+    showPreview('../img/choice-dislike.webp', '不开心的照片');
   });
 }());

@@ -333,6 +333,23 @@
     height: 54px;
     font-size: 18px;
   }
+  body.bg .wish-step {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: 0 0 auto;
+    gap: clamp(10px, 2vh, 18px);
+    width: min(400px, 100%);
+    transform: none;
+    animation: mobile-wish-appear .45s ease-out both;
+  }
+  body.bg .wish-prompt {
+    font-size: clamp(22px, 5vw, 30px);
+  }
+  body.bg .blow-candle {
+    min-height: 54px;
+    font-size: 18px;
+  }
   body.bg .choice-preview {
     width: 200px;
     max-width: 55vw;
@@ -352,4 +369,9 @@
 @keyframes greeting-sparkle {
   from { opacity: 0.35; transform: translateY(0); }
   to { opacity: 0.8; transform: translateY(-18px); }
+}
+
+@keyframes mobile-wish-appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
