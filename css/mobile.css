@@ -11,13 +11,24 @@
     border: 0;
   }
 
-  /* Login */
+  /* Keep the login and its success title centered in the visible screen. */
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    height: 100dvh;
+  }
   .wrapper .container {
     width: 100%;
     max-width: none;
     height: auto;
     margin: 0;
-    padding: max(12vh, 48px) 18px 24px;
+    padding: 16px 18px;
+  }
+  .wrapper.form-success .container h1 {
+    -webkit-transform: none;
+    transform: none;
   }
   .wrapper .container h1 {
     font-size: 44px;
