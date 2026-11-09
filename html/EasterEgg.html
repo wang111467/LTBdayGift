@@ -189,20 +189,25 @@
     let counter = 0;
     c2.width = c3.width = window.innerWidth;
     c2.height = c3.height = window.innerHeight;
-    ctx1.fillStyle = '#000';
-    const text = '李婷,生日快乐！'
-    let textWidth = 99999999;
+    const text = '李婷,生日快乐！';
+    const sidePadding = Math.max(18, Math.round(window.innerWidth * .08));
+    const availableWidth = window.innerWidth - sidePadding * 2;
+    let textWidth;
 
-    while (textWidth > window.innerWidth) {
-      ctx1.font = `900 ${fontSize--}px Arial`;
+    do {
+      ctx1.font = `900 ${fontSize}px Arial`;
       textWidth = ctx1.measureText(text).width;
-    }
+      if (textWidth <= availableWidth || fontSize <= 20) break;
+      fontSize -= 1;
+    } while (true);
 
-    c1.width = textWidth;
-    c1.height = fontSize * 1.5;
+    c1.width = Math.ceil(textWidth) + 8;
+    c1.height = Math.ceil(fontSize * 1.5);
     ctx1.font = `900 ${fontSize}px Arial`;
-    ctx1.fillText(text, 0, fontSize);
+    ctx1.fillStyle = '#000';
+    ctx1.fillText(text, 4, fontSize);
     const imgData = ctx1.getImageData(0, 0, c1.width, c1.height);
+    let minX = c1.width, minY = c1.height, maxX = 0, maxY = 0;
     for (let i = 0, max = imgData.data.length; i < max; i += 4) {
       const alpha = imgData.data[i + 3];
       const x = Math.floor(i / 4) % imgData.width;
@@ -210,8 +215,14 @@
 
       if (alpha && x % fidelity === 0 && y % fidelity === 0) {
         targets.push({ x, y });
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
       }
     }
+    const textOffsetX = Math.round((c2.width - (maxX - minX + fidelity)) / 2 - minX);
+    const textOffsetY = Math.round((c2.height - (maxY - minY + fidelity)) / 2 - minY);
 
     ctx3.fillStyle = '#FFF';
     ctx3.shadowColor = '#FFF';
@@ -270,8 +281,8 @@
         let { x, y } = targets[idx];
         targets.splice(idx, 1);
 
-        x += c2.width / 2 - textWidth / 2;
-        y += c2.height / 2 - fontSize / 2;
+        x += textOffsetX;
+        y += textOffsetY;
 
         return { x, y };
       }

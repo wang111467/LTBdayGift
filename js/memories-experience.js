@@ -3,16 +3,30 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mobile = window.matchMedia('(max-width: 960px)').matches;
 
+  var lineInterval = 650;
+  var revealEnds = new WeakMap();
+
+  function cardDuration(card) {
+    var lines = card.querySelectorAll('p:not(.video-eyebrow)').length;
+    return Math.max(1000, 300 + lines * lineInterval + 420);
+  }
+
   function revealCard(card, delay) {
-    if (card.dataset.revealStarted) return;
+    if (card.dataset.revealStarted) return revealEnds.get(card) || Date.now();
     card.dataset.revealStarted = 'true';
     var lines = Array.prototype.slice.call(card.querySelectorAll('p:not(.video-eyebrow)'));
+    var startDelay = reduceMotion ? 0 : delay;
+    var end = Date.now() + startDelay + (reduceMotion ? 0 : cardDuration(card));
+    revealEnds.set(card, end);
     setTimeout(function () {
       card.classList.add('is-visible');
       lines.forEach(function (line, index) {
-        setTimeout(function () { line.classList.add('line-visible'); }, reduceMotion ? 0 : 230 + index * 220);
+        setTimeout(function () {
+          line.classList.add('line-visible');
+        }, reduceMotion ? 0 : 300 + index * lineInterval);
       });
-    }, reduceMotion ? 0 : delay);
+    }, startDelay);
+    return end;
   }
 
   function revealSection(section) {
@@ -21,21 +35,25 @@
     var delay = 0;
     Array.prototype.forEach.call(section.querySelectorAll('.memory-card'), function (card) {
       revealCard(card, delay);
-      var count = card.querySelectorAll('p:not(.video-eyebrow)').length;
-      delay += Math.max(700, 350 + count * 220);
+      delay += reduceMotion ? 0 : cardDuration(card);
     });
   }
 
   if (mobile && 'IntersectionObserver' in window) {
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.memory-card'));
     var observer = new IntersectionObserver(function (entries) {
+      entries.sort(function (a, b) { return cards.indexOf(a.target) - cards.indexOf(b.target); });
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          revealCard(entry.target, 0);
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        var card = entry.target;
+        var siblings = Array.prototype.slice.call(card.parentElement.querySelectorAll('.memory-card'));
+        var previous = siblings[siblings.indexOf(card) - 1];
+        var previousEnd = previous ? revealEnds.get(previous) || 0 : 0;
+        revealCard(card, Math.max(0, previousEnd - Date.now()));
+        observer.unobserve(card);
       });
     }, { rootMargin: '0px 0px 80px 0px', threshold: .05 });
-    Array.prototype.forEach.call(document.querySelectorAll('.memory-card'), function (card) { observer.observe(card); });
+    cards.forEach(function (card) { observer.observe(card); });
   } else if (mobile) {
     sections.forEach(revealSection);
   } else {
@@ -63,10 +81,13 @@
   function resizeStage() {
     if (!player.videoWidth || !player.videoHeight) return;
     var ratio = player.videoWidth / player.videoHeight;
-    var sideSpace = window.innerWidth <= 600 ? 96 : 150;
-    var maxWidth = Math.min(window.innerWidth - sideSpace, 1050);
-    var maxHeight = window.innerHeight - (window.innerWidth <= 600 ? 132 : 104);
-    var width = Math.max(160, Math.min(maxWidth, maxHeight * ratio));
+    var viewport = window.visualViewport;
+    var viewportWidth = viewport ? viewport.width : window.innerWidth;
+    var viewportHeight = viewport ? viewport.height : window.innerHeight;
+    var compact = viewportWidth <= 600;
+    var maxWidth = Math.min(viewportWidth - (compact ? 96 : 150), 1050);
+    var maxHeight = viewportHeight - (compact ? 150 : 120);
+    var width = Math.max(120, Math.min(maxWidth, maxHeight * ratio));
     stage.style.width = width + 'px';
     stage.style.height = width / ratio + 'px';
   }
@@ -153,6 +174,7 @@
     unavailable.hidden = false;
   });
   window.addEventListener('resize', resizeStage);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', resizeStage);
   previousButton.addEventListener('click', function () { showVideo(currentIndex - 1); });
   nextButton.addEventListener('click', function () { showVideo(currentIndex + 1); });
   closeButton.addEventListener('click', closeVideo);
