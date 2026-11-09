@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="memories-page">
+<html lang="zh-CN" class="memories-page motion-ready">
 
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="../css/jquery.fullPage.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/mobile.css?v=3">
-  <link rel="stylesheet" href="../css/memories-polish.css?v=14">
+  <link rel="stylesheet" href="../css/memories-polish.css?v=15">
+  <link rel="stylesheet" href="../css/memories-experience.css?v=6">
+  <link rel="stylesheet" href="../css/audio-control.css?v=2">
 </head>
 
 <body>
@@ -242,11 +244,38 @@
             <p>首先送上我的祝福，希望未来身体健康，所有的烦恼统统全忘掉。</p>
             <p>希望每天都能开开心心，吃特别多的好吃的，咋吃都不胖，</p>
             <p>去特别多好玩的地方，咋玩都不会累。嘻嘻</p>
-            <p><a href="./EasterEgg.html">点击有彩蛋</a> </p>
           </div>
 
         </div>
         <div class="ly-triangle82"></div>
+      </div>
+
+      <!-- 视频按 videos/1.mp4 至 videos/4.mp4 的文件名顺序排列。 -->
+      <div class="section video-section">
+        <div class="video-memory-card memory-card tone-rose" data-label="11 / 影像留念">
+          <span class="memory-washi" aria-hidden="true"></span>
+          <p class="video-eyebrow">BIRTHDAY MOMENTS</p>
+          <h2>把快乐留在镜头里</h2>
+          <div class="video-grid">
+            <button class="video-tile" type="button" data-video-index="0" aria-label="打开视频 1">
+              <video class="video-thumb" muted playsinline preload="none" data-src="../videos/1.mp4" tabindex="-1" aria-hidden="true"></video>
+              <span class="video-placeholder"><span aria-hidden="true">▶</span><strong>视频 01</strong><small class="video-status">等待上传</small></span>
+            </button>
+            <button class="video-tile" type="button" data-video-index="1" aria-label="打开视频 2">
+              <video class="video-thumb" muted playsinline preload="none" data-src="../videos/2.mp4" tabindex="-1" aria-hidden="true"></video>
+              <span class="video-placeholder"><span aria-hidden="true">▶</span><strong>视频 02</strong><small class="video-status">等待上传</small></span>
+            </button>
+            <button class="video-tile" type="button" data-video-index="2" aria-label="打开视频 3">
+              <video class="video-thumb" muted playsinline preload="none" data-src="../videos/3.mp4" tabindex="-1" aria-hidden="true"></video>
+              <span class="video-placeholder"><span aria-hidden="true">▶</span><strong>视频 03</strong><small class="video-status">等待上传</small></span>
+            </button>
+            <button class="video-tile" type="button" data-video-index="3" aria-label="打开视频 4">
+              <video class="video-thumb" muted playsinline preload="none" data-src="../videos/4.mp4" tabindex="-1" aria-hidden="true"></video>
+              <span class="video-placeholder"><span aria-hidden="true">▶</span><strong>视频 04</strong><small class="video-status">等待上传</small></span>
+            </button>
+          </div>
+          <a class="video-easter-link" href="./EasterEgg.html">点击有彩蛋 <span aria-hidden="true">✦</span></a>
+        </div>
       </div>
 
     </div>
@@ -264,12 +293,26 @@
       <li></li>
     </ul>
   </div>
-  <audio src="../music/1.mp3" autoplay="autoplay" loop="loop">
-
-    <script src="../js/jquery-1.8.3.min.js"></script>
-    <script src="../js/jquery.fullPage.min.js"></script>
-    <script src="../js/diy.js"></script>
-  </audio>
+  <div id="video-viewer" class="video-viewer" role="dialog" aria-modal="true" aria-label="视频播放" hidden>
+    <div class="video-viewer-shade" data-close-video></div>
+    <button class="video-viewer-close" type="button" aria-label="关闭视频">×</button>
+    <button class="video-viewer-arrow video-viewer-prev" type="button" aria-label="上一个视频">‹</button>
+    <div class="video-viewer-main">
+      <div class="video-viewer-stage">
+        <video id="video-player" controls playsinline preload="auto" aria-label="正在播放的视频"></video>
+        <div id="video-unavailable" class="video-unavailable" role="status" hidden></div>
+      </div>
+      <div id="video-counter" class="video-viewer-counter" aria-live="polite">1 / 4</div>
+    </div>
+    <button class="video-viewer-arrow video-viewer-next" type="button" aria-label="下一个视频">›</button>
+  </div>
+  <audio id="page-music" src="../music/1.mp3" autoplay loop preload="none"></audio>
+  <button id="music-toggle" class="music-toggle" type="button" aria-label="播放背景音乐" aria-pressed="false">♫ 播放音乐</button>
+  <script src="../js/jquery-1.8.3.min.js"></script>
+  <script src="../js/jquery.fullPage.min.js"></script>
+  <script src="../js/diy.js"></script>
+  <script src="../js/audio-control.js?v=2"></script>
+  <script src="../js/memories-experience.js?v=5"></script>
 </body>
 
 </html>

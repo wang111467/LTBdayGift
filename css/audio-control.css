@@ -1,0 +1,18 @@
+/* A tap target for browsers that block autoplay. */
+.music-toggle {
+  position: fixed;
+  z-index: 9999;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  padding: 9px 15px;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 999px;
+  background: rgba(116, 58, 77, .82);
+  box-shadow: 0 6px 18px rgba(93, 40, 57, .2);
+  color: white;
+  font: 600 13px/1.3 "PingFang SC", sans-serif;
+  cursor: pointer;
+}
+.music-toggle:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+.music-toggle.is-playing { opacity: .72; }
+@media (max-width: 960px) { .music-toggle { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); } }

@@ -7,6 +7,19 @@
   var wishPrompt = document.getElementById('wish-prompt');
   var blowButton = document.getElementById('blow-candle');
   var likeStarted = false;
+  var memoryImages = [];
+
+  function warmMemoryImages() {
+    if (memoryImages.length) return;
+    [
+      'surprise', 'warm-grin', 'daydream', 'cheer',
+      'blush', 'wink', 'wish', 'love'
+    ].forEach(function (name) {
+      var image = new Image();
+      image.src = '../img/moods/' + name + '.webp';
+      memoryImages.push(image);
+    });
+  }
 
   function showPreview(image, description, onFinished) {
     clearTimeout(hideTimer);
@@ -48,13 +61,14 @@
     showPreview('../img/choice-like.webp', '开心的照片', function () {
       wishStep.hidden = false;
     });
+    setTimeout(warmMemoryImages, 100);
   });
 
   blowButton.addEventListener('click', function () {
     if (blowButton.disabled) return;
     blowButton.disabled = true;
     blowButton.hidden = true;
-    wishPrompt.textContent = '你的愿望都能实现';
+    wishPrompt.textContent = '愿你所愿，皆得圆满';
     document.body.classList.add('candle-extinguished');
     setTimeout(function () {
       window.location.href = 'Memories.html';

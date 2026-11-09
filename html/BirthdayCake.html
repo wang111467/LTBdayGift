@@ -7,8 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Happy Birthday</title>
-  <link rel="stylesheet" href="../css/styless.css?v=3" media="screen" type="text/css" />
-  <link rel="stylesheet" href="../css/mobile.css?v=7">
+  <link rel="stylesheet" href="../css/styless.css?v=4" media="screen" type="text/css" />
+  <link rel="stylesheet" href="../css/mobile.css?v=8">
+  <link rel="stylesheet" href="../css/audio-control.css?v=2">
+  <link rel="prefetch" href="Memories.html">
   <link rel="preload" as="image" href="../img/choice-like.webp">
   <link rel="preload" as="image" href="../img/choice-dislike.webp">
 </head>
@@ -218,8 +220,10 @@
     <li></li>
   </ul>
   <script src='../js/jquery.js'></script>
-  <script src="../js/cake-choice.js?v=5"></script>
-  <audio src="../music/2.mp3" autoplay="autoplay" loop="loop">
+  <script src="../js/cake-choice.js?v=7"></script>
+  <audio id="page-music" src="../music/2.mp3" autoplay loop preload="none"></audio>
+  <button id="music-toggle" class="music-toggle" type="button" aria-label="播放背景音乐" aria-pressed="false">♫ 播放音乐</button>
+  <script src="../js/audio-control.js?v=2"></script>
 </body>
 
 </html>
