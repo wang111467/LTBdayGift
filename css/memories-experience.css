@@ -34,8 +34,8 @@ html.memories-page.motion-ready .section .memory-card p:not(.video-eyebrow) {
   opacity: 0 !important;
   -webkit-transform: translateY(8px) !important;
   transform: translateY(8px) !important;
-  -webkit-transition: opacity .5s ease, -webkit-transform .5s ease !important;
-  transition: opacity .5s ease, transform .5s ease !important;
+  -webkit-transition: opacity .65s ease, -webkit-transform .65s ease !important;
+  transition: opacity .65s ease, transform .65s ease !important;
 }
 html.memories-page.motion-ready .section .memory-card p:not(.video-eyebrow).line-visible {
   opacity: 1 !important;
@@ -53,6 +53,33 @@ html.memories-page.motion-ready .section .memory-card p:not(.video-eyebrow).line
 @media (prefers-reduced-motion: reduce) {
   html.memories-page.motion-ready .section .memory-card,
   html.memories-page.motion-ready .section .memory-card p { transition-duration: .01ms !important; }
+}
+@media (max-width: 960px) {
+  html.memories-page .memory-finale-section {
+    min-height: 0;
+    padding-bottom: 8px;
+  }
+  html.memories-page .video-section {
+    min-height: 0;
+    padding-top: 8px;
+    padding-bottom: 48px;
+  }
+}
+html.memories-page.motion-ready .section .video-memory-card {
+  -webkit-transform: translateY(42px) scale(.97) !important;
+  transform: translateY(42px) scale(.97) !important;
+  -webkit-transition-duration: .85s !important;
+  transition-duration: .85s !important;
+}
+html.memories-page.motion-ready .section .video-memory-card.is-visible {
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.memories-page.motion-ready .section .video-memory-card {
+    -webkit-transition-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
 }
 /* The four slots can show actual videos as soon as their data-src attributes are filled. */
 html.memories-page .video-section { box-sizing: border-box; }

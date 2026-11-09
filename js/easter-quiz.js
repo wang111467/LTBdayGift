@@ -5,7 +5,7 @@
   var riddles = [
     {
       question: '中国人会飞，为什么曹操不会飞？',
-      answer: '因为孟德翅膀已经受了伤。'
+      answer: '因为 孟德翅膀已经受了伤～'
     },
     {
       question: '第 2 题：问题待填写',

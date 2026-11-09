@@ -1,4 +1,15 @@
 (function () {
+  var frosting = document.getElementById('crema');
+  var candleShown = false;
+  function showCandle() {
+    if (candleShown) return;
+    candleShown = true;
+    document.body.classList.add('cake-ready');
+  }
+  if (frosting) frosting.addEventListener('endEvent', showCandle, { once: true });
+  // A short fallback keeps the candle available if a browser skips SVG endEvent.
+  window.setTimeout(showCandle, 4200);
+
   var preview = document.getElementById('choice-preview');
   var hideTimer;
   var requestId = 0;

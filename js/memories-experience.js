@@ -3,18 +3,28 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mobile = window.matchMedia('(max-width: 960px)').matches;
 
-  var lineInterval = 650;
+  var lineInterval = 1000;
+  var firstLineDelay = 680;
+  var lineFadeDuration = 650;
+  var betweenCardsDelay = 450;
   var revealEnds = new WeakMap();
 
+  function visibleLines(card) {
+    return Array.prototype.filter.call(card.querySelectorAll('p:not(.video-eyebrow)'), function (line) {
+      return line.getClientRects().length > 0;
+    });
+  }
+
   function cardDuration(card) {
-    var lines = card.querySelectorAll('p:not(.video-eyebrow)').length;
-    return Math.max(1000, 300 + lines * lineInterval + 420);
+    var lines = visibleLines(card).length;
+    if (!lines) return firstLineDelay + betweenCardsDelay;
+    return firstLineDelay + (lines - 1) * lineInterval + lineFadeDuration + betweenCardsDelay;
   }
 
   function revealCard(card, delay) {
     if (card.dataset.revealStarted) return revealEnds.get(card) || Date.now();
     card.dataset.revealStarted = 'true';
-    var lines = Array.prototype.slice.call(card.querySelectorAll('p:not(.video-eyebrow)'));
+    var lines = visibleLines(card);
     var startDelay = reduceMotion ? 0 : delay;
     var end = Date.now() + startDelay + (reduceMotion ? 0 : cardDuration(card));
     revealEnds.set(card, end);
@@ -23,7 +33,7 @@
       lines.forEach(function (line, index) {
         setTimeout(function () {
           line.classList.add('line-visible');
-        }, reduceMotion ? 0 : 300 + index * lineInterval);
+        }, reduceMotion ? 0 : firstLineDelay + index * lineInterval);
       });
     }, startDelay);
     return end;
@@ -46,22 +56,31 @@
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         var card = entry.target;
+        if (card.classList.contains('video-memory-card') && entry.intersectionRatio < .3) return;
         var siblings = Array.prototype.slice.call(card.parentElement.querySelectorAll('.memory-card'));
         var previous = siblings[siblings.indexOf(card) - 1];
         var previousEnd = previous ? revealEnds.get(previous) || 0 : 0;
         revealCard(card, Math.max(0, previousEnd - Date.now()));
         observer.unobserve(card);
       });
-    }, { rootMargin: '0px 0px 80px 0px', threshold: .05 });
+    }, { rootMargin: '0px 0px 80px 0px', threshold: [.05, .3] });
     cards.forEach(function (card) { observer.observe(card); });
   } else if (mobile) {
     sections.forEach(revealSection);
   } else {
-    var watch = new MutationObserver(function () {
-      sections.forEach(function (section) { if (section.classList.contains('active')) revealSection(section); });
+    // fullPage calls this after a desktop section has finished moving into view.
+    window.revealBirthdaySection = function (index) {
+      var section = sections[index - 1];
+      if (section) revealSection(section);
+    };
+    // fullPage does not call afterLoad for the initially active section.
+    window.jQuery(function () {
+      window.setTimeout(function () {
+        sections.forEach(function (section) {
+          if (section.classList.contains('active')) revealSection(section);
+        });
+      }, 0);
     });
-    sections.forEach(function (section) { watch.observe(section, { attributes: true, attributeFilter: ['class'] }); });
-    sections.forEach(function (section) { if (section.classList.contains('active')) revealSection(section); });
   }
 
   var tiles = Array.prototype.slice.call(document.querySelectorAll('.video-tile'));

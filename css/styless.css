@@ -29,14 +29,21 @@ body {
   margin-left: 49.5%;
   width: 5px;
   height: 35px;
-  -webkit-transform: translateY(-300px);
-  -ms-transform: translateY(-300px);
-  transform: translateY(-300px);
+  visibility: hidden;
+  -webkit-transform: translateY(-30px);
+  -ms-transform: translateY(-30px);
+  transform: translateY(-30px);
   -webkit-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-animation: in 500ms 6s ease-out forwards;
-  animation: in 500ms 6s ease-out forwards;
+  -webkit-animation: none;
+  animation: none;
+}
+
+.bg.cake-ready .velas {
+  visibility: visible;
+  -webkit-animation: in 450ms ease-out forwards;
+  animation: in 450ms ease-out forwards;
 }
 
 .velas:after,
@@ -70,29 +77,29 @@ body {
   height: 18px;
 }
 
-.fuego:nth-child(1) {
-  -webkit-animation: fuego 2s 6.5s infinite;
-  animation: fuego 2s 6.5s infinite;
+.bg.cake-ready .fuego:nth-child(1) {
+  -webkit-animation: fuego 2s .45s infinite;
+  animation: fuego 2s .45s infinite;
 }
 
-.fuego:nth-child(2) {
-  -webkit-animation: fuego 1.5s 6.5s infinite;
-  animation: fuego 1.5s 6.5s infinite;
+.bg.cake-ready .fuego:nth-child(2) {
+  -webkit-animation: fuego 1.5s .45s infinite;
+  animation: fuego 1.5s .45s infinite;
 }
 
-.fuego:nth-child(3) {
-  -webkit-animation: fuego 1s 6.5s infinite;
-  animation: fuego 1s 6.5s infinite;
+.bg.cake-ready .fuego:nth-child(3) {
+  -webkit-animation: fuego 1s .45s infinite;
+  animation: fuego 1s .45s infinite;
 }
 
-.fuego:nth-child(4) {
-  -webkit-animation: fuego 0.5s 6.5s infinite;
-  animation: fuego 0.5s 6.5s infinite;
+.bg.cake-ready .fuego:nth-child(4) {
+  -webkit-animation: fuego 0.5s .45s infinite;
+  animation: fuego 0.5s .45s infinite;
 }
 
-.fuego:nth-child(5) {
-  -webkit-animation: fuego 0.2s 6.5s infinite;
-  animation: fuego 0.2s 6.5s infinite;
+.bg.cake-ready .fuego:nth-child(5) {
+  -webkit-animation: fuego 0.2s .45s infinite;
+  animation: fuego 0.2s .45s infinite;
 }
 
 /* ============================================== Animation Fire

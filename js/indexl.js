@@ -4,6 +4,11 @@ var S = {
     var shortestSide = Math.min(window.innerWidth, window.innerHeight);
     return Math.max(6, Math.min(13, Math.round(shortestSide / 55)));
   },
+  goToCake: function () {
+    if (S.cakeNavigationStarted) return;
+    S.cakeNavigationStarted = true;
+    window.location.href = 'BirthdayCake.html';
+  },
   init: function () {
     var mobile = window.matchMedia && window.matchMedia('(max-width: 960px) and (pointer: coarse)').matches;
     var action = window.location.href,
@@ -18,9 +23,7 @@ var S = {
       S.UI.simulate(mobile ? 'Hi 李婷|祝你|生日快乐|Happy|Birthday|#countdown 3||' : 'Hi 李婷|祝你|生日快乐|happy birthday|#countdown 3||');
     }
 
-    window.setTimeout(function () {
-      window.location.href = 'BirthdayCake.html';
-    }, mobile ? 13500 : 11500);
+    window.setTimeout(S.goToCake, mobile ? 13500 : 11500);
 
     S.Drawing.loop(function () {
       S.Shape.render();
@@ -173,6 +176,7 @@ S.UI = (function () {
 
           timedAction(function (index) {
             if (index === 0) {
+              window.setTimeout(S.goToCake, 120);
               if (sequence.length === 0) {
                 S.Shape.switchShape(S.ShapeBuilder.letter(''));
               } else {
