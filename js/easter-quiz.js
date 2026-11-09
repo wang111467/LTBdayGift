@@ -8,13 +8,13 @@
       answer: '因为 孟德翅膀已经受了伤～'
     },
     {
-      question: '第 2 题：问题待填写',
-      answer: '第 2 题：答案待填写'
+      question: '一分钟60秒，两分钟呢？',
+      answer: '一分20秒 嘿嘿'
     },
     {
-      question: '第 3 题：问题待填写',
-      answer: '第 3 题：答案待填写'
-    }
+      question: '太阳出生时，月亮对太阳的父母说了什么？',
+      answer: '”生日快乐呀!“'
+    },
   ];
 
   var entry = document.getElementById('easter-entry');
