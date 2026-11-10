@@ -1,14 +1,57 @@
 (function () {
+  var cake = document.getElementById('cake');
   var frosting = document.getElementById('crema');
+  var icingPath = frosting && frosting.parentNode;
   var candleShown = false;
+  var readyCheckTimer;
+  var fallbackTimer;
+
+  function icingHasLanded() {
+    try {
+      var box = icingPath.getBBox();
+      return box.y >= 400 && box.height >= 50;
+    } catch (error) {
+      return false;
+    }
+  }
+
   function showCandle() {
     if (candleShown) return;
     candleShown = true;
+    clearInterval(readyCheckTimer);
+    clearTimeout(fallbackTimer);
     document.body.classList.add('cake-ready');
   }
-  if (frosting) frosting.addEventListener('endEvent', showCandle, { once: true });
-  // A short fallback keeps the candle available if a browser skips SVG endEvent.
-  window.setTimeout(showCandle, 4200);
+
+  function showAfterPaint() {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        if (icingHasLanded()) showCandle();
+      });
+    });
+  }
+
+  function checkCakeReady() {
+    if (!cake || !icingPath || cake.getCurrentTime() < 3.6 || !icingHasLanded()) return;
+    showAfterPaint();
+  }
+
+  if (frosting) frosting.addEventListener('endEvent', checkCakeReady);
+  readyCheckTimer = setInterval(checkCakeReady, 120);
+
+  // If SVG animation stalls on a phone, finish the cake before showing its candle.
+  fallbackTimer = setTimeout(function () {
+    if (candleShown || !cake) return;
+    Array.prototype.forEach.call(cake.querySelectorAll('animate[attributeName="d"]'), function (animation) {
+      var path = animation.parentNode;
+      var values = animation.getAttribute('values');
+      animation.remove();
+      if (values) path.setAttribute('d', values.split(';').pop().trim());
+    });
+    requestAnimationFrame(function () {
+      requestAnimationFrame(showCandle);
+    });
+  }, 5500);
 
   var preview = document.getElementById('choice-preview');
   var hideTimer;

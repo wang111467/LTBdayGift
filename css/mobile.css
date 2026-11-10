@@ -261,6 +261,7 @@
   body.bg .cake-art {
     position: relative;
     flex: 0 0 auto;
+    overflow: hidden;
     width: 160px;
     height: 160px;
     width: min(200px, 40vh, 55vw);
