@@ -181,7 +181,7 @@
     // INITIALIZATION
     const [c1, c2, c3] = document.querySelectorAll('canvas');
     const [ctx1, ctx2, ctx3] = [c1, c2, c3].map(c => c.getContext('2d'));
-    let fontSize = 200;
+    let fontSize = Math.min(Math.floor(window.innerHeight * .28), Math.max(200, Math.floor(window.innerWidth * .2)));
     const rockets = [];
     const shards = [];
     const targets = [];
@@ -190,14 +190,14 @@
     c2.width = c3.width = window.innerWidth;
     c2.height = c3.height = window.innerHeight;
     const text = '李婷,生日快乐！';
-    const sidePadding = Math.max(18, Math.round(window.innerWidth * .08));
+    const sidePadding = Math.max(18, Math.round(window.innerWidth * .05));
     const availableWidth = window.innerWidth - sidePadding * 2;
     let textWidth;
 
     do {
       ctx1.font = `900 ${fontSize}px Arial`;
       textWidth = ctx1.measureText(text).width;
-      if (textWidth <= availableWidth || fontSize <= 20) break;
+      if (textWidth <= availableWidth || fontSize <= 8) break;
       fontSize -= 1;
     } while (true);
 

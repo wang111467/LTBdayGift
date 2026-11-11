@@ -21,6 +21,32 @@ html.memories-page.motion-ready .section .ly-box01 {
   margin-bottom: 0;
   overflow: hidden;
 }
+@media (min-width: 961px) {
+  html.memories-page.motion-ready .section .ly-box01 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(20px, 3vw, 48px);
+    padding: clamp(48px, 5vw, 72px);
+  }
+  html.memories-page.motion-ready .section .ly-box01 .ly-txt01,
+  html.memories-page.motion-ready .section .ly-box01 .ly-txt02 {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  html.memories-page.motion-ready .section .ly-box01 .ly-txt01 p,
+  html.memories-page.motion-ready .section .ly-box01 .ly-txt02 p {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 0 .18em !important;
+    font-size: clamp(18px, 1.65vw, 25px) !important;
+    line-height: 1.65 !important;
+  }
+}
 html.memories-page.motion-ready .section .memory-card [class^="ly-txt"] {
   opacity: 1 !important;
   -webkit-transform: none !important;
