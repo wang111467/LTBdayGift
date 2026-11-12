@@ -63,9 +63,7 @@
   }
 
   function revealEntry() { entry.hidden = false; }
-  document.addEventListener('birthday-text-nearly-complete', revealEntry);
-  document.addEventListener('birthday-text-complete', revealEntry);
-  if (window.easterEntryReady || window.easterTextComplete) revealEntry();
+  window.setTimeout(revealEntry, 2000);
 
   entry.addEventListener('click', function () {
     current = 0;
