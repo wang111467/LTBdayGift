@@ -93,6 +93,13 @@
   var nextButton = viewer.querySelector('.video-viewer-next');
   var closeButton = viewer.querySelector('.video-viewer-close');
   var music = document.getElementById('page-music');
+  if (window.matchMedia('(max-width: 960px)').matches) {
+    try {
+      if (window.parent !== window && window.parent.birthdayMusic) {
+        music = window.parent.birthdayMusic.audio;
+      }
+    } catch (error) {}
+  }
   var currentIndex = 0;
   var focusedBeforeOpen = null;
   var musicWasPlaying = false;
@@ -174,17 +181,34 @@
     });
   });
 
-  // Begin buffering while the visitor reads the earlier cards, not on arrival at this page.
-  setTimeout(function () {
-    tiles.forEach(function (tile, index) {
-      setTimeout(function () {
-        var preview = tile.querySelector('.video-thumb');
-        preview.preload = navigator.connection && navigator.connection.saveData ? 'metadata' : 'auto';
-        preview.src = preview.getAttribute('data-src');
-        preview.load();
-      }, index * 900);
-    });
-  }, 1500);
+  // Posters are ready immediately; buffer the videos in order after this page has loaded.
+  // Keep the fourth slot in the queue so adding videos/4.mp4 needs no code change.
+  function preloadVideo(index) {
+    if (index >= tiles.length) return;
+    var preview = tiles[index].querySelector('.video-thumb');
+    var nextStarted = false;
+    function next() {
+      if (nextStarted) return;
+      nextStarted = true;
+      window.setTimeout(function () { preloadVideo(index + 1); }, 300);
+    }
+    preview.addEventListener('canplaythrough', next, { once: true });
+    preview.addEventListener('error', next, { once: true });
+    window.setTimeout(next, 3500);
+    preview.preload = 'auto';
+    preview.src = preview.getAttribute('data-src');
+    preview.load();
+  }
+
+  window.addEventListener('load', function () {
+    window.setTimeout(function () {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(function () { preloadVideo(0); }, { timeout: 2500 });
+      } else {
+        preloadVideo(0);
+      }
+    }, 800);
+  }, { once: true });
 
   player.addEventListener('loadedmetadata', resizeStage);
   player.addEventListener('error', function () {

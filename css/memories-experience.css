@@ -1,3 +1,15 @@
+/* Keep the viewport pink while fullPage moves between sections. */
+html.memories-page,
+html.memories-page body {
+  background-color: #ee9ca7;
+}
+@media (min-width: 961px) {
+  /* The legacy card starts at zero height, which collapses it during scroll. */
+  html.memories-page.motion-ready .section .ly-box23 {
+    height: min(600px, calc(100vh - 80px));
+  }
+}
+
 /* Reveal cards and their lines in reading order, overriding the old 20-second animations. */
 html.memories-page.motion-ready .section .memory-card {
   -webkit-animation: none !important;
