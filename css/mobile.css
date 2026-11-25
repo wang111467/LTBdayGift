@@ -304,6 +304,8 @@
     display: block;
     width: 100%;
     height: auto;
+    /* Center the visible lettering inside its wide transparent source image. */
+    transform: translateX(69.4%) scale(2);
   }
   body.bg .choice-actions {
     position: relative;
