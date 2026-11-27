@@ -1,56 +1,79 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh-CN">
 <head>
+<script src="../js/galaxy-cake-assets.js?v=2"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#000000">
+<title>祝你生日快乐</title>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="14;url=BirthdayCake.html">
-
-  <title></title>
-
-  <link rel="stylesheet" href="../css/normalizel.css">
-
-  <link rel="stylesheet" href="../css/stylel.css?v=4" media="screen" type="text/css" />
-  <link rel="stylesheet" href="../css/mobile.css?v=4">
-
+<link rel="stylesheet" href="../css/galaxy-cake.css?v=1">
+<link rel="stylesheet" href="../css/galaxy-experience.css?v=4">
+<link rel="prefetch" href="Memories.html">
+<link rel="preload" as="image" href="../img/choice-like.webp">
+<link rel="preload" as="image" href="../img/choice-dislike.webp">
+<script src="../js/cake-flow.js?v=1"></script>
 </head>
+<body>
+<script src="../js/galaxy-cake-transition.js?v=1"></script>
 
-<body class="greeting-page">
-<canvas class="canvas"></canvas>
-<div class="mobile-greeting" aria-label="生日祝福">
-  <span>Hi，李婷</span>
-  <strong>祝你生日快乐</strong>
-  <span>Happy Birthday</span>
+<div id="intro">
+  <svg width="0" height="0" style="position:absolute"><filter id="brush" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+  <div class="scene" id="iScene">
+    <div class="cal" id="iCal"><span class="zh">生日快乐</span><span class="en">Happy Birthday</span><span class="stroke"></span></div>
+    <canvas class="fill" id="iFill"></canvas>
+    <div class="glow" id="iGlow"></div>
+    <div class="center" id="iCenter"><b>生日快乐</b><small>希望你天天开心</small></div>
+  </div>
+  <button class="tap" id="iTap" type="button">轻触有惊喜<small>TAP TO OPEN</small></button>
+  <button class="go" id="iGo">🎂 进入星河漫游 →</button>
 </div>
+<script src="../js/galaxy-intro.js?v=2"></script>
 
-<div class="help">?</div> 
-
-<div class="ui">
-  <input class="ui-input" type="text" />
-  <span class="ui-return">↵</span>
+<div id="stage"></div>
+<canvas id="fallback2d"></canvas>
+<div class="panel" id="panel">
+  <div class="eyebrow">A little universe, just for you</div>
+  <h1>新一岁，事事顺。</h1>
+  <div class="sub">希望你天天开心</div>
+  <div class="nameRow"><div class="name">祝你生日快乐</div></div>
+  <div class="dates" style="display:none"></div>
+  <a class="bloomBtn tap" id="bloomBtn" hidden style="display:none"></a>
 </div>
-
-<div class="overlay">
-  <div class="tabs">
-    <div class="tabs-labels"><span class="tabs-label">Commands</span><span class="tabs-label">Info</span><span class="tabs-label">Share</span></div>
-
-    <div class="tabs-panels">
-      <ul class="tabs-panel commands">
-        <li class="commands-item"><span class="commands-item-title">Text</span><span class="commands-item-info" data-demo="Hello :)">Type anything</span><span class="commands-item-action">Demo</span></li>
-        <li class="commands-item"><span class="commands-item-title">Countdown</span><span class="commands-item-info" data-demo="#countdown 10">#countdown<span class="commands-item-mode">number</span></span><span class="commands-item-action">Demo</span></li>
-        <li class="commands-item"><span class="commands-item-title">Time</span><span class="commands-item-info" data-demo="#time">#time</span><span class="commands-item-action">Demo</span></li>
-        <li class="commands-item"><span class="commands-item-title">Rectangle</span><span class="commands-item-info" data-demo="#rectangle 30x15">#rectangle<span class="commands-item-mode">width x height</span></span><span class="commands-item-action">Demo</span></li>
-        <li class="commands-item"><span class="commands-item-title">Circle</span><span class="commands-item-info" data-demo="#circle 25">#circle<span class="commands-item-mode">diameter</span></span><span class="commands-item-action">Demo</span></li>
-
-        <li class="commands-item commands-item--gap"><span class="commands-item-title">Animate</span><span class="commands-item-info" data-demo="The time is|#time|#countdown 3|#icon thumbs-up"><span class="commands-item-mode">command1</span>&nbsp;|<span class="commands-item-mode">command2</span></span><span class="commands-item-action">Demo</span></li>
-      </ul>
+<button type="button" class="musicBtn" id="music-toggle" aria-label="播放背景音乐" aria-pressed="false"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18.5a3 3 0 1 1-2-2.83V5l12-2v12.5a3 3 0 1 1-2-2.83V7.4l-8 1.33z"/></svg></button>
+<div class="nogl" id="nogl">你的浏览器暂时无法显示 3D 星河，先送你一个简单版的蛋糕</div>
+<a class="version-link" href="index1-legacy.html">旧版回味</a>
+<div class="bottom">
+  <p class="wishMsg" id="wishMsg" role="status">愿你所愿，皆得圆满</p>
+  <section class="choice-panel" aria-label="生日蛋糕互动">
+    <p id="choice-prompt" class="choice-prompt" hidden></p>
+    <div class="choice-actions" id="choice-actions" aria-hidden="true" inert>
+      <button id="like-choice" class="birthday-button primary" type="button"><span aria-hidden="true">♡</span> 喜欢</button>
+      <button id="dislike-choice" class="birthday-button secondary" type="button">不喜欢</button>
     </div>
+    <div id="wish-step" hidden>
+      <p class="wish-prompt" id="wish-prompt">许个愿吧</p>
+      <button id="blow-candle" class="birthday-button primary" type="button" disabled>吹蜡烛</button>
+    </div>
+  </section>
+  <span id="hint" hidden></span>
+  <div class="bar" id="bar">
+    <button data-fx="galaxy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-25 12 12)"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>星河</button>
+    <button data-fx="snow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7"/></svg>小雪</button>
+    <button data-fx="meteor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 4L9 15M16 3l-6 6M21 8l-6 6"/><circle cx="7" cy="17" r="3" fill="currentColor"/></svg>流星雨</button>
+    <button data-fx="halo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>奇幻光环</button>
   </div>
 </div>
-
-  <script src="../js/indexl.js?v=12"></script>
-
+<script src="../js/vendor/three.min.js?v=1"></script>
+<script src="../js/vendor/three-extras.js?v=1"></script>
+<script src="../js/galaxy-cake.js?v=3"></script>
+<aside id="choice-preview" class="reaction-card" role="status" aria-live="polite" hidden>
+  <div class="reaction-photo"><img id="reaction-image" alt="" width="455" height="606"></div>
+  <div class="reaction-copy"><p id="reaction-title"></p></div>
+</aside>
+<audio id="page-music" src="../music/2.mp3" loop preload="none"></audio>
+<script src="../js/galaxy-experience.js?v=4"></script>
+<script src="../js/audio-control.js?v=5"></script>
 </body>
-
 </html>

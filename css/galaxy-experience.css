@@ -1,0 +1,129 @@
+[hidden] { display: none !important; }
+:root { color-scheme: dark; --warm: #ffe3b2; --muted: #b8b3c8; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--warm); outline-offset: 5px; }
+.panel { padding-right: 78px; }
+.eyebrow { color: #d3a88d; font-size: 12px; }
+.sub { color: var(--muted); font-size: 15px; }
+.cake-caption { margin-top: 16px; color: #c2b8ce; font-size: 14px; line-height: 1.8; letter-spacing: .04em; }
+.version-link { position: fixed; z-index: 5; top: calc(18px + env(safe-area-inset-top)); right: 72px; color: #c6bdcf; font-size: 13px; text-decoration: none; border-bottom: 1px solid #b5a0cc55; padding: 5px 0; }
+.musicBtn { width: 40px; height: 40px; font-size: 0; overflow: hidden; }
+.musicBtn::before { content: '♫'; font-size: 21px; color: var(--warm); }
+.musicBtn.is-playing { border-color: #ffd7a377; box-shadow: 0 0 20px #ffbc6b22; }
+.bottom { gap: 12px; bottom: calc(18px + env(safe-area-inset-bottom)); }
+.choice-panel { text-align: center; padding: 0 16px; }
+.choice-prompt, .wish-prompt { color: #e7deed; font-size: 15px; line-height: 1.6; margin: 0 0 14px; letter-spacing: .05em; }
+.choice-actions { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.birthday-button { appearance: none; min-width: 124px; min-height: 46px; padding: 12px 25px; border-radius: 999px; border: 1px solid #d6c1e044; font: inherit; font-size: 15px; font-weight: 600; letter-spacing: .08em; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
+.birthday-button:hover { transform: translateY(-2px); }
+.birthday-button:active { transform: scale(.97); }
+.birthday-button.primary { color: #493126; background: linear-gradient(125deg, #ffedca, #f2c08e 55%, #edb8ce); border-color: #ffe8c777; box-shadow: 0 5px 26px #e7aa6d33, inset 0 1px #fff9; }
+.birthday-button.primary:hover { box-shadow: 0 6px 34px #e7aa6d55; }
+.birthday-button.secondary { color: #dad1e4; background: #1e172b99; backdrop-filter: blur(16px); }
+.birthday-button:disabled { opacity: .5; cursor: wait; }
+.orbit-note { font-size: 12px; color: #aaa2b9; }
+.bar button { min-height: 40px; font-size: 13px; }
+.wishMsg { font-size: 16px; line-height: 1.8; }
+.wishMsg small { font-size: 13px; }
+.nogl { bottom: auto; top: 42%; font-size: 13px; pointer-events: none; }
+.photo-missing .reaction-photo::after { content: '♡'; position: absolute; inset: 0; display: grid; place-items: center; font-size: 80px; color: var(--warm); }
+.leaving-cake { opacity: 0; transition: opacity .7s ease; }
+@keyframes reaction-in { from { opacity: 0; } to { opacity: 1; } }
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+ .panel { padding: 0 0 0 6.5vw; }
+}
+@media (max-width: 899px) {
+ .panel h1 { font-size: clamp(26px, 6vw, 36px); }
+ .panel .name { font-size: 24px; margin-top: 12px; }
+ .cake-caption { margin-top: 8px; }
+ .bar button { padding: 8px 10px; }
+}
+@media (max-height: 560px) and (min-aspect-ratio: 1/1) {
+ .panel { width: 36%; top: 50%; right: auto; transform: translateY(-50%); padding: 0 0 0 24px; }
+ .panel h1 { font-size: 25px; }
+ .panel .name { font-size: 21px; }
+ .eyebrow, .cake-caption { display: none; }
+ .bottom { left: 36%; gap: 6px; bottom: 10px; }
+ .choice-prompt, .wish-prompt { font-size: 13px; margin-bottom: 8px; }
+ .birthday-button { min-height: 40px; padding: 8px 20px; }
+ .orbit-note { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+.candle-extinguished .choice-panel, .candle-extinguished .orbit-note { display: none; }
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+ .panel h1 { font-size: clamp(32px, 3.3vw, 46px); white-space: nowrap; }
+}
+
+@media (max-width: 600px) {
+ .panel { padding-top: calc(54px + env(safe-area-inset-top)); }
+ .eyebrow { display: none; }
+}
+
+.cake-2d .nogl { display: none !important; }
+
+@media (max-height: 600px) and (max-aspect-ratio: 1/1) {
+ .panel { padding-top: calc(48px + env(safe-area-inset-top)); }
+ .panel h1 { font-size: 23px; margin-top: 8px; }
+ .panel .sub, .cake-caption { display: none; }
+ .panel .nameRow { margin-top: 8px; }
+ .panel .name { margin-top: 0; font-size: 20px; }
+ .bottom { gap: 8px; bottom: 10px; }
+ .choice-prompt, .wish-prompt { font-size: 13px; margin-bottom: 10px; }
+ .birthday-button { min-height: 42px; padding: 9px 20px; }
+ .bar button { font-size: 12px; padding: 6px 8px; }
+}
+
+/* Match the previous cake: pause, then slowly bring each choice in from its side. */
+.choice-actions { --choice-distance: clamp(90px, 20vw, 240px); visibility: hidden; pointer-events: none; }
+.choice-actions .birthday-button { opacity: 0; }
+.choice-actions.is-visible { visibility: visible; pointer-events: auto; }
+.choice-actions.is-visible .birthday-button { opacity: 1; animation-duration: 4.5s; animation-timing-function: cubic-bezier(.22, .61, .36, 1); animation-fill-mode: both; }
+.choice-actions.is-visible #like-choice { animation-name: cake-choice-from-left; }
+.choice-actions.is-visible #dislike-choice { animation-name: cake-choice-from-right; }
+@keyframes cake-choice-from-left {
+ from { opacity: 0; translate: calc(-1 * var(--choice-distance)) 0; }
+ to { opacity: 1; translate: 0 0; }
+}
+@keyframes cake-choice-from-right {
+ from { opacity: 0; translate: var(--choice-distance) 0; }
+ to { opacity: 1; translate: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .choice-actions.is-visible .birthday-button { animation-duration: .01ms; }
+}
+
+/* Keep the centered portrait card compact within the actual page viewport. */
+.reaction-card {
+ position: fixed;
+ z-index: 20;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: fit-content;
+ max-width: calc(100vw - 40px);
+ padding: 8px;
+ border: 1px solid #f0c6c859;
+ border-radius: 18px;
+ color: #fff0e3;
+ background: linear-gradient(145deg, #33223ef5, #171526fa);
+ box-shadow: 0 24px 100px #0008, 0 0 50px #e9b58714;
+ backdrop-filter: blur(22px);
+ animation: reaction-in .4s ease both;
+}
+.reaction-card[data-reaction="dislike"] { border-color: #a99bd959; }
+.reaction-photo { position: relative; display: flex; justify-content: center; border-radius: 14px; background: #2b2340; }
+.reaction-photo img {
+ display: block;
+ width: auto;
+ height: auto;
+ max-width: min(180px, 46vw);
+ max-height: calc(44vh - 54px);
+ max-height: calc(44dvh - 54px);
+ object-fit: contain;
+ border-radius: 14px;
+}
+.reaction-copy { padding: 8px 8px 4px; text-align: center; }
+.reaction-copy p { margin: 0; font-size: 14px; line-height: 1.5; font-weight: 600; }

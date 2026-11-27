@@ -7,7 +7,7 @@ var S = {
   goToCake: function () {
     if (S.cakeNavigationStarted) return;
     S.cakeNavigationStarted = true;
-    window.location.href = 'BirthdayCake.html';
+    window.location.href = document.body.getAttribute('data-cake-target') || 'BirthdayCake.html';
   },
   init: function () {
     var mobile = window.matchMedia && window.matchMedia('(max-width: 960px) and (pointer: coarse)').matches;
